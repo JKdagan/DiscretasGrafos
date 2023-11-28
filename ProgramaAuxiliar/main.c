@@ -134,7 +134,11 @@ int main(void) {
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) return -1;
 
-    char *interseccion = esquinas[0].interseccion;
+    const int salto = 14;
+    int multiplo = 7; //cambiar manualmente: 1-LosCarrera, 2-Maipu,... 
+    int indice_calle = salto * multiplo; //cambiar manualmente 
+
+    char *interseccion = esquinas[indice_calle].interseccion;
     char *calle = quitarEspacios(interseccion);
     int direccion;
     printf("%s\n (1 izq, 2 der, 3 bid): ", calle);
@@ -142,24 +146,24 @@ int main(void) {
 
     //Conecta la calle de izq a der
     if (direccion == 1) {
-        for (int i = 13; i > 0; i--) {
+        for (int i = 13 + indice_calle; i > indice_calle; i--) {
             fprintf(fp, "{%d,%d,1},\n", i, i - 1);
         }
     }
 
     //Conecta la calle de der a izq
     else if (direccion == 2) {
-        for (int i = 0; i < 13; i++) {
+        for (int i = indice_calle; i < 13 + indice_calle; i++) {
             fprintf(fp, "{%d,%d,1},\n", i, i + 1);
         }
     }
 
     //Conecta la calle bidireccionalmente
     else if (direccion == 3) {
-        for (int i = 0; i < 13; i++) {
+        for (int i = indice_calle; i < 13 + indice_calle; i++) {
             fprintf(fp, "{%d,%d,1},\n", i, i + 1);
         }
-        for (int i = 13; i > 0; i--) {
+        for (int i = 13 + indice_calle; i > indice_calle; i--) {
             fprintf(fp, "{%d,%d,1},\n", i, i - 1);
         }
         
