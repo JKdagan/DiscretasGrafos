@@ -137,7 +137,7 @@ const char* NOMBRES_CALLES[] = {
     "Freire", "Maipu", "Los Carrera", "Pedro Aguirre Cerda"
 };
 
-const Arco CALLES[] {
+const Arco CALLES[] = {
     {0,1,1},
     {1,2,1},
     {2,3,1},

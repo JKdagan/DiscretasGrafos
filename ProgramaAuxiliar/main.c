@@ -140,16 +140,29 @@ int main(void) {
     printf("%s\n (1 izq, 2 der, 3 bid): ", calle);
     scanf("%d", &direccion);
 
+    //Conecta la calle de izq a der
     if (direccion == 1) {
-
+        for (int i = 13; i > 0; i--) {
+            fprintf(fp, "{%d,%d,1},\n", i, i - 1);
+        }
     }
+
+    //Conecta la calle de der a izq
     else if (direccion == 2) {
         for (int i = 0; i < 13; i++) {
             fprintf(fp, "{%d,%d,1},\n", i, i + 1);
         }
     }
-    else if (direccion == 3) {
 
+    //Conecta la calle bidireccionalmente
+    else if (direccion == 3) {
+        for (int i = 0; i < 13; i++) {
+            fprintf(fp, "{%d,%d,1},\n", i, i + 1);
+        }
+        for (int i = 13; i > 0; i--) {
+            fprintf(fp, "{%d,%d,1},\n", i, i - 1);
+        }
+        
     }
 
 }
