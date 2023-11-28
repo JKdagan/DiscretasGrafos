@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct Vertice {
     //Cada vertice es una interseccion de calles
@@ -127,6 +128,7 @@ const Vertice esquinas[] = {
 const int NUM_INTERSECCIONES = 112;
 
 char *quitarEspacios(char *s);
+char *agarrarCalle2(char *s);
 
 int main(void) {
 
@@ -135,36 +137,36 @@ int main(void) {
     if (fp == NULL) return -1;
 
     const int salto = 14;
-    int multiplo = 7; //cambiar manualmente: 1-LosCarrera, 2-Maipu,... 
+    int multiplo = 13; //cambiar manualmente: 0-Prat, 1-Serrano,... 
     int indice_calle = salto * multiplo; //cambiar manualmente 
 
-    char *interseccion = esquinas[indice_calle].interseccion;
-    char *calle = quitarEspacios(interseccion);
+    char *interseccion = esquinas[multiplo].interseccion;
+    char *calle = quitarEspacios(agarrarCalle2(interseccion));
     int direccion;
-    printf("%s\n (1 izq, 2 der, 3 bid): ", calle);
+    printf("%s\n (1 arriba, 2 abajo, 3 bid): ", calle);
     scanf("%d", &direccion);
 
-    //Conecta la calle de izq a der
+    //Conecta la calle de abajo a arriba
     if (direccion == 1) {
-        for (int i = 13 + indice_calle; i > indice_calle; i--) {
-            fprintf(fp, "{%d,%d,1},\n", i, i - 1);
+        for (int i = salto * 7 + multiplo; i > multiplo; i-= 14) {
+            fprintf(fp, "{%d,%d,1},\n", i, i - salto);
         }
     }
 
-    //Conecta la calle de der a izq
+    //Conecta la calle de arriba a abajo
     else if (direccion == 2) {
-        for (int i = indice_calle; i < 13 + indice_calle; i++) {
-            fprintf(fp, "{%d,%d,1},\n", i, i + 1);
+        for (int i = multiplo; i < salto * 7; i+= 14) {
+            fprintf(fp, "{%d,%d,1},\n", i, i + salto);
         }
     }
 
     //Conecta la calle bidireccionalmente
     else if (direccion == 3) {
-        for (int i = indice_calle; i < 13 + indice_calle; i++) {
-            fprintf(fp, "{%d,%d,1},\n", i, i + 1);
+        for (int i = multiplo; i < salto * 7; i+= 14) {
+            fprintf(fp, "{%d,%d,1},\n", i, i + salto);
         }
-        for (int i = 13 + indice_calle; i > indice_calle; i--) {
-            fprintf(fp, "{%d,%d,1},\n", i, i - 1);
+        for (int i = salto * 7 + multiplo; i > multiplo; i-= 14) {
+            fprintf(fp, "{%d,%d,1},\n", i, i - salto);
         }
         
     }
@@ -175,26 +177,33 @@ char *quitarEspacios(char *s) {
     int n = 32;
     char *d = malloc(n * sizeof(char));
     int j = 0;
-    for (int i = 0; i < strlen(s); i++) {
-        
-        if (s[i] == '-') {
-            d[j] = '\0';
-            return d;
-        }
 
-        if (s[i] != ' ') {
+    for (int i = 0; i < strlen(s); i++) {
+        if (s[i] != ' ' ) {
             d[j++] = s[i];
         }
-
-        
-
     }
-
     return d;
 }
 
-void printToTxT() {
+char *agarrarCalle2(char *s) {
+    int n = 32;
+    char *d = malloc(n * sizeof(char));
+    int j = 0;
+    bool post_guion = false;
+    for (int i = 0; i < strlen(s); i++) {
+        if (s[i] == '-') {
+            post_guion = true;
+            continue;
+        }
+        if (post_guion == false ) {
+            continue;
+        }
 
+        d[j++] = s[i];
+    }
+    return d;
 }
+
     
 
