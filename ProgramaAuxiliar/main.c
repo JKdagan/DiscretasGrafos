@@ -1,3 +1,7 @@
+//Programa de ayuda para ingresar las calles manualmente de manera rapdia
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct Vertice {
     //Cada vertice es una interseccion de calles
@@ -5,15 +9,7 @@ typedef struct Vertice {
     char* interseccion;
 } Vertice;
 
-typedef struct Arco {
-                        //Cada arco representa una cuadra
-    Vertice vert_src;   //vertice donde parte el arco
-    Vertice vert_dest;  //vertice donde llega el arco
-    int peso;           //peso para algoritmo
-} Arco;
-
-//Intersecciones de calles, parte de Los Carrera con Arturo Prat y va de izq a derecha, arriba a abajo
-const Vertice ESQUINAS[] = {
+const Vertice esquinas[] = {
     {0, "Los Carrera - Arturo Prat"},
     {1, "Los Carrera - Serrano"},
     {2, "Los Carrera - Salas"},
@@ -130,27 +126,58 @@ const Vertice ESQUINAS[] = {
 
 const int NUM_INTERSECCIONES = 112;
 
-const char* NOMBRES_CALLES[] = {
-    "Arturo Prat", "Serrano", "Salas","Angol", "Lincoyan", "Rengo", "Caupolican", 
-    "Anibal Pinto", "Colo Colo", "Castellon", "Tucapel", "Orompello", "Ongolmo", 
-    "Paicavi", "Chacabuco", "Cochrane", "San Martin", "O'Higgins", "Barros Arana", 
-    "Freire", "Maipu", "Los Carrera", "Pedro Aguirre Cerda"
-};
+char *quitarEspacios(char *s);
 
-const Arco CALLES[] {
-    {0,1,1},
-    {1,2,1},
-    {2,3,1},
-    {3,4,1},
-    {4,5,1},
-    {5,6,1},
-    {6,7,1},
-    {7,8,1},
-    {8,9,1},
-    {9,10,1},
-    {10,11,1},
-    {11,12,1},
-    {12,13,1},
+int main(void) {
 
-};
+    char *filename = "arcos.txt";
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL) return -1;
+
+    char *interseccion = esquinas[0].interseccion;
+    char *calle = quitarEspacios(interseccion);
+    int direccion;
+    printf("%s\n (1 izq, 2 der, 3 bid): ", calle);
+    scanf("%d", &direccion);
+
+    if (direccion == 1) {
+
+    }
+    else if (direccion == 2) {
+        for (int i = 0; i < 13; i++) {
+            fprintf(fp, "{%d,%d,1},\n", i, i + 1);
+        }
+    }
+    else if (direccion == 3) {
+
+    }
+
+}
+
+char *quitarEspacios(char *s) {
+    int n = 32;
+    char *d = malloc(n * sizeof(char));
+    int j = 0;
+    for (int i = 0; i < strlen(s); i++) {
+        
+        if (s[i] == '-') {
+            d[j] = '\0';
+            return d;
+        }
+
+        if (s[i] != ' ') {
+            d[j++] = s[i];
+        }
+
+        
+
+    }
+
+    return d;
+}
+
+void printToTxT() {
+
+}
+    
 
