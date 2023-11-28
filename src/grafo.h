@@ -138,6 +138,11 @@ const char* NOMBRES_CALLES[] = {
 };
 
 const Arco CALLES[] = {
+    //EXEPCIONES
+    //Diagonal
+    {111, 96, 2},
+    {96, 81, 2},
+    {81, 66, 2},
     //HORIZONTALES
     //Los Carrera: Bidireccional
     {0,1,1},
